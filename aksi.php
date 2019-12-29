@@ -11,6 +11,7 @@ __________                      .__
  |____|    (____  /__/\_ \\___  >____/
                 \/      \/    \/      
 Bot Reff		";
+sleep(1);
 echo "\n\r";
 echo "Jangan Lupa masukkan ref di reff.txt";
 echo "\r\nNomor : ";	
@@ -22,13 +23,20 @@ $load = json_decode($send, TRUE);
 if($load['code'] == 200){
 	echo "\r\nOTP Code :";
 	$otp = trim(fgets(STDIN));
+	sleep(1);
 	$dataa = '{"phone":"'.$no.'","token":"'.$otp.'"}';
 	$sendd = curl("https://api.paxel.co/apg/api/v1/me/phone-token/validate",$dataa);
 	$sendd = json_decode($sendd, TRUE);
 	if($sendd['code'] == 200){
 		$datta = '{"social_media_id":"","social_media_type":"","first_name":"'.$names[0]['first_name'].'","last_name":"'.$names[0]['last_name'].'","refer_by":"'.$ref.'","phone":"'.$no.'","token":"'.$otp.'","username":"'.$names[0]['first_name'].'99","password":"Avenged@23","email":"","referrer_source":"","campaign":""}';
 		$doit = curl("https://api.paxel.co/apg/api/v1/register", $datta);
-		print_r($doit['code']);
+		print_r($doit);
+		if($doit['code'] == 200){
+			die('Refferal Success !');
+		}
+		else{
+			die('Reff Gagal!');
+		}
 	}
 	else{
 		die('OTP salah');
